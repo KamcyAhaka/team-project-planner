@@ -55,8 +55,9 @@
 
 ## Tech Stack
 
-- Frontend Framework: React
+- Frontend Framework: React + TypeScript
 - Styling: TailwindCSS, ShadCN
 - Version control: Git/GitHub
 - Hosting: Vercel
 - Database: MongoDB
+- Authentication: Auth.js
