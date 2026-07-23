@@ -80,6 +80,17 @@ Acceptance Criteria:
 Independent Test:
 - Delete a task and a test project (admin user), verify removal and permission enforcement.
 
+### User Story 7 — Monitor Progress & Deadlines (Priority: P2)
+As a team member, I want to track project progress and view upcoming deadlines in a dedicated view so that the team maintains deadline awareness and visibility over our project progress.
+
+Acceptance Criteria:
+- The project board/list display includes a clear visual progress indicator (e.g., percentage of completed tasks).
+- Users can view a dashboard section showing upcoming deadlines across the project, sorted by proximity to the current date.
+- Tasks that are overdue or due within 48 hours display distinct visual warnings to support student awareness.
+
+Independent Test:
+- Access the project view with tasks in different status columns and different due dates, check that the overall project progress is calculated correctly, and verify visual styling changes for overdue or near-due tasks.
+
 ## API Endpoints (Draft)
 All endpoints assume authenticated requests where applicable.
 
