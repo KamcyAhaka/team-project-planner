@@ -6,7 +6,7 @@ Team Project Planner is a web application that helps student teams organize and 
 
 ## Team Members
 
-- Sehee Jang
 - Divine Ahaka
 - Adetoke Faderin
 - Olanrewaju Ayomide Adebayo
+- Medina MBEDI
