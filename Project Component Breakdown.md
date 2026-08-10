@@ -16,6 +16,25 @@
 - /projects/:id/members/:id - Project member details page
 - /settings - Settings page
 
+## API Endpoints
+
+### Project-specific Endpoints
+
+- Get all projects
+- Get specific project by id
+- Get all tasks under a project
+- Get specific task by id
+- Create a project
+- Edit a project
+- Create a task
+- Edit a task
+
+### User-specific Endpoints
+
+- Get user details
+- Edit user details
+- Get project member list
+
 ## Reusable Components
 
 - Navbar
