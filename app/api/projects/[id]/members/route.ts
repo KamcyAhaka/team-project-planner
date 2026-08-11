@@ -48,7 +48,7 @@ export async function GET(
     
     const isOwner = ownerIdStr === currentUserIdStr;
     const isMember = project.members?.some(
-      (memberId: any) => memberId.toString() === currentUserIdStr
+      (memberId: unknown) => String(memberId) === currentUserIdStr
     );
 
     if (!isOwner && !isMember) {
@@ -59,9 +59,9 @@ export async function GET(
     }
 
     // 5. Gather all member user IDs (owner + list of members)
-    const memberIds: any[] = [];
+    const memberIds: (string | ObjectId)[] = [];
     if (project.ownerId) {
-      memberIds.push(project.ownerId);
+      memberIds.push(project.ownerId as string | ObjectId);
     }
     if (Array.isArray(project.members)) {
       memberIds.push(...project.members);

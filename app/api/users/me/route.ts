@@ -90,7 +90,7 @@ export async function PATCH(request: Request) {
     const { displayName, firstName, lastName, profilePictureURL } = validationResult.data;
 
     // Build update document dynamically with only provided fields
-    const updateDoc: Record<string, any> = {};
+    const updateDoc: Record<string, string | Date> = {};
     if (displayName !== undefined) updateDoc.displayName = displayName;
     if (firstName !== undefined) updateDoc.firstName = firstName;
     if (lastName !== undefined) updateDoc.lastName = lastName;
@@ -107,7 +107,7 @@ export async function PATCH(request: Request) {
     updateDoc.updatedAt = new Date();
 
     const db = await getDb();
-    let query: Record<string, any> = {};
+    const query: Record<string, string | ObjectId> = {};
 
     if (session.user.id && ObjectId.isValid(session.user.id)) {
       query._id = new ObjectId(session.user.id);
