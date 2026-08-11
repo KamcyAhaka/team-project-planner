@@ -22,20 +22,55 @@ export interface Project {
 
 // Create a new project
 export async function createProject(data: Project) {
+  if (data.startDate && data.endDate && new Date(data.endDate) < new Date(data.startDate)) {
+    throw new Error('End date / deadline cannot be before the start date.');
+  }
+
   const db = await getDb();
 
   const projectName = data.name || data.title || "Untitled Project";
   const projectOwner = data.ownerId || data.admin;
 
+  const resolvedMembers: (string | ObjectId)[] = [];
+  if (Array.isArray(data.members)) {
+    for (const m of data.members) {
+      if (typeof m === 'string') {
+        const trimmed = m.trim().toLowerCase();
+        if (ObjectId.isValid(trimmed)) {
+          resolvedMembers.push(new ObjectId(trimmed));
+        } else if (trimmed.includes('@')) {
+          const user = await db.collection('users').findOne({ email: trimmed });
+          if (user) {
+            resolvedMembers.push(user._id);
+          } else {
+            resolvedMembers.push(trimmed);
+          }
+        } else {
+          resolvedMembers.push(m);
+        }
+      } else {
+        resolvedMembers.push(m);
+      }
+    }
+  }
+
+  // Ensure owner is added as a member
+  if (projectOwner) {
+    const ownerObjectId = typeof projectOwner === 'string' && ObjectId.isValid(projectOwner)
+      ? new ObjectId(projectOwner)
+      : projectOwner;
+    
+    const ownerStr = ownerObjectId.toString();
+    const isOwnerIncluded = resolvedMembers.some(m => m.toString() === ownerStr);
+    if (!isOwnerIncluded) {
+      resolvedMembers.push(ownerObjectId);
+    }
+  }
+
   const project: Project = {
     name: projectName,
     description: data.description || "",
-    members: Array.isArray(data.members) ? data.members.map(m => {
-      if (typeof m === 'string' && ObjectId.isValid(m)) {
-        return new ObjectId(m);
-      }
-      return m;
-    }) : [],
+    members: resolvedMembers,
     startDate: data.startDate || new Date().toISOString(),
     endDate: data.endDate || data.deadline || new Date().toISOString(),
     status: data.status || "planning",
@@ -59,7 +94,7 @@ export async function createProject(data: Project) {
 }
 
 // Get projects for a user (admin/owner or member)
-export async function getUserProjects(userId: string): Promise<Project[]> {
+export async function getUserProjects(userId: string, userEmail?: string): Promise<Project[]> {
   const db = await getDb();
 
   // Handle both ObjectId and string representations for user queries
@@ -70,6 +105,7 @@ export async function getUserProjects(userId: string): Promise<Project[]> {
       { ownerId: userId },
       { admin: userId },
       { members: userId },
+      ...(userEmail ? [{ members: userEmail.trim().toLowerCase() }] : []),
       ...(userObjectId ? [
         { ownerId: userObjectId },
         { members: userObjectId }
