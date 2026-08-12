@@ -16,6 +16,7 @@ interface TaskCreateFormProps {
   members: Member[];
   projectStartDate?: string;
   projectEndDate?: string;
+  initialStatus?: string;
 }
 
 export function TaskCreateForm({
@@ -23,6 +24,7 @@ export function TaskCreateForm({
   members,
   projectStartDate,
   projectEndDate,
+  initialStatus,
 }: TaskCreateFormProps) {
   const router = useRouter();
   const [name, setName] = useState('');
@@ -30,7 +32,7 @@ export function TaskCreateForm({
   const [assignedTo, setAssignedTo] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [priority, setPriority] = useState('Medium');
-  const [status, setStatus] = useState('To Do');
+  const [status, setStatus] = useState(initialStatus || 'To Do');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [validationError, setValidationError] = useState('');
 

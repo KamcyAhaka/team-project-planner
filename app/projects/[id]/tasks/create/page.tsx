@@ -9,12 +9,17 @@ import { TaskCreateForm } from './task-create-form';
 
 interface CreateTaskPageProps {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ status?: string }>;
 }
 
 export const dynamic = 'force-dynamic';
 
-export default async function CreateTaskPage({ params }: CreateTaskPageProps) {
+export default async function CreateTaskPage({ params, searchParams }: CreateTaskPageProps) {
   const session = await auth();
+  const resolvedSearchParams = await searchParams;
+  const statusParam = resolvedSearchParams?.status;
+  const allowedStatuses = ['To Do', 'In Progress', 'Done'];
+  const initialStatus = allowedStatuses.includes(statusParam || '') ? statusParam : 'To Do';
 
   // 1. Authenticate user
   if (!session || !session.user || !session.user.id) {
@@ -102,6 +107,7 @@ export default async function CreateTaskPage({ params }: CreateTaskPageProps) {
           members={membersList}
           projectStartDate={project.startDate ? new Date(project.startDate).toISOString() : undefined}
           projectEndDate={project.endDate ? new Date(project.endDate).toISOString() : undefined}
+          initialStatus={initialStatus}
         />
       </div>
     </div>

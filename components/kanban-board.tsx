@@ -7,7 +7,7 @@ import { Tasks } from '@/models/task';
 import { toast } from '@/components/ui/toast';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { Clock, AlertTriangle } from 'lucide-react';
+import { Clock, AlertTriangle, Plus } from 'lucide-react';
 
 interface KanbanBoardProps {
   initialTasks: Tasks[];
@@ -220,6 +220,15 @@ export function KanbanBoard({ initialTasks, projectId, members }: KanbanBoardPro
                   })
                 )}
               </div>
+
+              {/* Add Task Button at bottom of column */}
+              <Link
+                href={`/projects/${projectId}/tasks/create?status=${encodeURIComponent(column)}`}
+                className="w-full flex items-center justify-center gap-1.5 py-2.5 text-xs font-bold text-muted-foreground hover:text-primary hover:bg-primary/[0.04] border border-dashed border-border hover:border-primary/45 rounded-xl transition-all cursor-pointer select-none mt-2"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                Add Task
+              </Link>
             </div>
           );
         })}
