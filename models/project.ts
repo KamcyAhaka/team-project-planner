@@ -155,3 +155,11 @@ export async function getAllProject() {
   const projects = await db.collection('projects').find({}).toArray();
   return projects;
 }
+
+// Get specific project by id
+export async function getProjectById(projectId: string): Promise<Project | null> {
+  if (!ObjectId.isValid(projectId)) return null;
+  const db = await getDb();
+  const project = await db.collection('projects').findOne({ _id: new ObjectId(projectId) });
+  return project as unknown as Project | null;
+}
