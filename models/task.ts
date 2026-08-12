@@ -69,3 +69,11 @@ export async function getTasksByUser(userId: string): Promise<Tasks[]> {
   const userTasks = await tasks.find(query).toArray();
   return userTasks as unknown as Tasks[];
 }
+
+// delete a task by custom id field
+export async function deleteTask(id: string): Promise<number> {
+  const db = await getDb();
+  const tasks = db.collection('tasks');
+  const result = await tasks.deleteOne({ id });
+  return result.deletedCount;
+}
