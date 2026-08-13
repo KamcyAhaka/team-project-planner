@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { toast } from '@/components/ui/toast';
 import { Loader2, UserPlus, Mail, X, Shield, Briefcase, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -173,9 +174,11 @@ export function TeamTab({ projectId, members, onInviteSuccess, onRemoveSuccess }
               <div className="flex items-center gap-3 min-w-0">
                 {/* Avatar */}
                 {member.avatar ? (
-                  <img
+                  <Image
                     src={member.avatar}
                     alt={member.name || member.email || 'Member'}
+                    width={40}
+                    height={40}
                     className="w-10 h-10 rounded-full object-cover shrink-0 border border-border"
                   />
                 ) : (
