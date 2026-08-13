@@ -163,3 +163,11 @@ export async function getProjectById(projectId: string): Promise<Project | null>
   const project = await db.collection('projects').findOne({ _id: new ObjectId(projectId) });
   return project as unknown as Project | null;
 }
+
+// Delete a project
+export async function deleteProject(projectId: string) {
+  const db = await getDb(); 
+  const result = await db.collection('projects').deleteOne({ _id: new ObjectId(projectId) });
+  // Return true if a project was actually deleted
+  return result.deletedCount > 0;
+}
