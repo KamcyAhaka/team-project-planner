@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
-import { LayoutDashboard, FolderKanban, Calendar, Settings, LogOut, Menu, X, Plus } from 'lucide-react';
+import { LayoutDashboard, FolderKanban, LogOut, Menu, X, Plus } from 'lucide-react';
 import Image from 'next/image';
 
 interface NavItem {
@@ -16,8 +16,6 @@ interface NavItem {
 const navItems: NavItem[] = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'Projects', href: '/projects', icon: FolderKanban },
-  { name: 'Calendar', href: '/calendar', icon: Calendar },
-  { name: 'Settings', href: '/settings', icon: Settings },
 ];
 
 interface DashboardNavProps {
@@ -184,8 +182,6 @@ export function DashboardHeader({ user }: DashboardNavProps) {
       if (pathname.includes('/create')) return 'Create Project';
       return 'Projects';
     }
-    if (pathname.startsWith('/calendar')) return 'Calendar';
-    if (pathname.startsWith('/settings')) return 'Settings';
     return 'Team Planner';
   };
 
