@@ -212,6 +212,7 @@ export async function POST(
       user: {
         id: inviteUserIdStr,
         email: userToInvite.email,
+        name: userToInvite.displayName || [userToInvite.firstName, userToInvite.lastName].filter(Boolean).join(" ") || userToInvite.email.split("@")[0],
         displayName: userToInvite.displayName || "",
         firstName: userToInvite.firstName || "",
         lastName: userToInvite.lastName || "",

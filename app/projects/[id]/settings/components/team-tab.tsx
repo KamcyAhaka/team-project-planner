@@ -175,12 +175,12 @@ export function TeamTab({ projectId, members, onInviteSuccess, onRemoveSuccess }
                 {member.avatar ? (
                   <img
                     src={member.avatar}
-                    alt={member.name}
+                    alt={member.name || member.email || 'Member'}
                     className="w-10 h-10 rounded-full object-cover shrink-0 border border-border"
                   />
                 ) : (
                   <div className="w-10 h-10 rounded-full bg-primary/10 text-primary font-bold text-sm flex items-center justify-center shrink-0 border border-primary/10 uppercase">
-                    {member.name.slice(0, 2)}
+                    {(member.name || member.email || '').slice(0, 2)}
                   </div>
                 )}
 
@@ -188,7 +188,7 @@ export function TeamTab({ projectId, members, onInviteSuccess, onRemoveSuccess }
                 <div className="min-w-0">
                   <div className="flex items-center gap-1.5">
                     <span className="font-bold text-sm text-foreground truncate">
-                      {member.name}
+                      {member.name || member.email}
                     </span>
                     {member.role === 'owner' ? (
                       <Badge className="bg-primary/10 text-primary border-none font-extrabold text-[8px] py-0 px-1.5 rounded-sm flex items-center gap-0.5 select-none shrink-0 capitalize">
